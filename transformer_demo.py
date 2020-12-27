@@ -31,6 +31,7 @@ table th:nth-child(1) {
 </style>
 """, unsafe_allow_html=True)
 st.table(measurement)
+st.header('Результы аналиа отбора масла')
 active_rows = ['moisture',
                'acid',
                'oil_tangent',
@@ -43,24 +44,25 @@ active_rows = ['moisture',
                'etin',
                'cardon_dioxid',
                'carbon_oxid']
-moisture = st.number_input('Влагосодержание % масс, г/т')
-acid = st.number_input('Кислотное число, мг КОН/г масла')
-oil_tangent = st.number_input('Содержание воднорастворимых кислот и щелочей мг КОН/ г масла')
-ionol = st.number_input('Содержание ионола мг/г')
-flush_point = st.number_input('Температура вспышки в закрытом тигле, град. Цельсия')
-hydrogen = st.number_input(r'Содержание $$H_2$$, мг/г')
+moisture = st.number_input('Влагосодержание % масс, г/т', value=9.6)
+acid = st.number_input('Кислотное число, мг КОН/г масла', value=0.01)
+oil_tangent = st.number_input('Содержание воднорастворимых кислот и щелочей мг КОН/ г масла', value=0.15, format='%f')
+ionol = st.number_input('Содержание ионола мг/г', value=0.288, format='%f')
+flush_point = st.number_input('Температура вспышки в закрытом тигле, град. Цельсия', value=136.0, format='%f')
+r'Содержание $$H_2$$, мг/г'
+hydrogen = st.number_input(r'водород, %', value=0.000987, format='%f')
 r'''Содержание $$CH_4$$'''
-metan = st.number_input('метан мг/г')
+metan = st.number_input('метан %', value=0.00009, format='%f')
 r'''Содержание $$C_2H_4$$'''
-eten = st.number_input('этилен мг/г')
+eten = st.number_input('этилен %', value=0.000138, format='%f')
 r'''Содержание $$C_2H_6$$'''
-etan = st.number_input('этан, мг/г')
+etan = st.number_input('этан, %', value=0.00016, format='%f')
 r'''Содержание $$C_2H_2$$'''
-etin = st.number_input('ацэтилен, мг/г')
+etin = st.number_input('ацэтилен, %', value=0, format='%f')
 r'''Содержание $$CO_2$$'''
-cardon_dioxid = st.number_input('диоксид углерода, мг/г')
+cardon_dioxid = st.number_input('диоксид углерода, %', value=0.054551, format='%f')
 r'''Содержание $$CO$$'''
-carbon_oxid = st.number_input('углекислый газ, мг/г')
+carbon_oxid = st.number_input('углекислый газ, %', value=0.012935, format='%f')
 model = joblib.load("transformer_classifier.pkl")
 if st.button('Проверить состояние трансформатора'):
     dataset = [moisture,
@@ -79,7 +81,7 @@ if st.button('Проверить состояние трансформатора
     if state == 'good':
         state = 'Хорошее'
     if state == 'satisfactory':
-        state = 'удовлетворительое'
+        state = 'удовлетворительное'
     if state == 'unsatisfactory':
         state = 'неудовлетвориельное'
     if state == 'unserviceable':
